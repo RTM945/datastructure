@@ -48,10 +48,11 @@ int arraylist_insert(ArrayList* l, int i, ArrayListElem e) {
     return 1;
 }
 
-int arraylist_delete(ArrayList* l, int i) {
+int arraylist_delete(ArrayList* l, int i, ArrayListElem* e) {
     if (i < 0 || i > l->length - 1) {
         return 0;
     }
+    *e = l->data[i];
     memmove(&l->data[i],
             &l->data[i + 1],
             (l->length - (i + 1)) * sizeof(ArrayListElem));
@@ -61,7 +62,14 @@ int arraylist_delete(ArrayList* l, int i) {
     //     *p = *(p + 1);
     // }
     l->length -= 1;
+    return 1;
+}
 
+int arraylist_get(ArrayList* l, int i, ArrayListElem* e) {
+    if (i < 0 || i > l->length - 1) {
+        return 0;
+    }
+    *e = l->data[i];
     return 1;
 }
 
@@ -76,9 +84,11 @@ int arraylist_free(ArrayList* l) {
 
 void arraylist_print(ArrayList* l) {
     int i;
-
     for (i = 0; i < l->length; i++) {
-        printf("%d ", l->data[i]);
+        // printf("%d ", l->data[i]);
+        ArrayListElem e;
+        arraylist_get(l, i , &e);
+        printf("%d ", e);
     }
     printf("\n");
 }
@@ -86,13 +96,17 @@ void arraylist_print(ArrayList* l) {
 int main() {
     ArrayList* l = arraylist_new();
     int i;
+    ArrayListElem e;
     for (i = 0; i < 10; i++) {
         arraylist_insert(l, i, i);
     }
     arraylist_print(l);
     arraylist_insert(l, 0, 10);
+    arraylist_get(l, 0, &e);
+    printf("%d \n", e);
     arraylist_print(l);
-    arraylist_delete(l, 0);
+    arraylist_delete(l, 0, &e);
+    printf("%d \n", e);
     arraylist_print(l);
     arraylist_clear(l);
     arraylist_print(l);
