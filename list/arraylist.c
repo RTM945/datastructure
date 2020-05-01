@@ -55,6 +55,11 @@ int arraylist_delete(ArrayList* l, int i) {
     memmove(&l->data[i],
             &l->data[i + 1],
             (l->length - (i + 1)) * sizeof(ArrayListElem));
+    // ArrayListElem* p = &l->data[i];
+    // ArrayListElem* q = &l->data[l->length - 1];
+    // for (; p < q; p++) {
+    //     *p = *(p + 1);
+    // }
     l->length -= 1;
 
     return 1;
