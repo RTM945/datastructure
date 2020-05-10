@@ -1,4 +1,4 @@
-#include "single_linkedlist.h"
+#include "doubly_linkedlist.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@ LinkedList* linkedlist_new() {
         return NULL;
     }
     l->length = 0;
-    l->head = node_new(NULL);  //dummy head;
+    l->head = node_new(NULL);
     return l;
 }
 
@@ -19,6 +19,7 @@ Node* node_new(Type e) {
         return NULL;
     }
     node->data = e;
+    node->prev = NULL;
     node->next = NULL;
     return node;
 }
@@ -35,7 +36,11 @@ int linkedlist_insert(LinkedList* l, int index, Type e) {
     for (int i = 0; i < index; i++) {
         prev = prev->next;
     }
+    node->prev = prev;
     node->next = prev->next;
+    if (prev->next != NULL) {
+        prev->next->prev = node;
+    }
     prev->next = node;
     l->length += 1;
     return 1;
@@ -52,17 +57,20 @@ int linkedlist_delete(LinkedList* l, int index, Type* e) {
     Node* remove = prev->next;
     *e = remove->data;
     prev->next = remove->next;
+    if (remove->next != NULL) {
+        remove->next->prev = prev;
+    }
     free(remove);
     l->length -= 1;
     return 1;
 }
 
 int linkedlist_free(LinkedList* l) {
-    Node* node = l->head;
-    while (node != NULL) {
-        Node* next = node->next;
-        free(node);
-        node = next;
+    Node* prev = l->head;
+    while (prev != NULL) {
+        Node* next = prev->next;
+        free(prev);
+        prev = next;
     }
     free(l);
     return 1;
@@ -72,11 +80,11 @@ int linkedlist_get(LinkedList* l, int index, Type* e) {
     if (index < 0 || index > l->length - 1) {
         return 0;
     }
-    Node* node = l->head->next;
+    Node* prev = l->head->next;
     for (int i = 0; i < index; i++) {
-        node = node->next;
+        prev = prev->next;
     }
-    *e = node->data;
+    *e = prev->data;
     return 1;
 }
 
