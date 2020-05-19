@@ -8,8 +8,12 @@ LinkedList* linkedlist_new() {
     if (l == NULL) {
         return NULL;
     }
+    l->head = node_new(NULL);  //dummy head;
+    if (l->head == NULL) {
+        free(l);
+        return NULL;
+    }
     l->length = 0;
-    l->head = node_new(NULL);
     return l;
 }
 
@@ -97,6 +101,18 @@ int linkedlist_print(LinkedList* l) {
     printf("\n");
 }
 
+int linkedlist_print_reverse(LinkedList* l) {
+    Node* node = l->head;
+    while (node->next != NULL) {
+        node = node->next;
+    }
+    while (node->data != NULL) {
+        printf("%d ", *((int*)node->data));
+        node = node->prev;
+    }
+    printf("\n");
+}
+
 int main() {
     LinkedList* l = linkedlist_new();
     int values1[] = {1, 3, 5, 7, 9};
@@ -111,6 +127,7 @@ int main() {
         printf("insert %d \n", values2[i]);
     }
     linkedlist_print(l);
+    linkedlist_print_reverse(l);
     for (int i = 0; i < 5; i++) {
         Type e;
         linkedlist_delete(l, i + 1, &e);

@@ -8,8 +8,12 @@ LinkedList* linkedlist_new() {
     if (l == NULL) {
         return NULL;
     }
-    l->length = 0;
     l->head = node_new(NULL);  //dummy head;
+    if (l->head == NULL) {
+        free(l);
+        return NULL;
+    }
+    l->length = 0;
     return l;
 }
 
