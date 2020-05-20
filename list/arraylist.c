@@ -97,7 +97,7 @@ int main() {
     ArrayList* l = arraylist_new();
     int i;
     ArrayListElem e;
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 20; i++) {
         arraylist_insert(l, i, i);
     }
     arraylist_print(l);
