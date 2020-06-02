@@ -8,7 +8,6 @@ ArrayQueue* queue_new(int capacity) {
     if (q == NULL) {
         return NULL;
     }
-    capacity = capacity + 1;
     q->datas = (Type*)malloc(sizeof(Type) * capacity);
     if (q->datas == NULL) {
         free(q);
@@ -18,6 +17,7 @@ ArrayQueue* queue_new(int capacity) {
     q->head = 0;
     q->tail = 0;
     q->length = 0;
+    return q;
 }
 
 int queue_offer(ArrayQueue* q, Type e) {
