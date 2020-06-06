@@ -1,4 +1,4 @@
-#include "linked_tree.h"
+#include "bintree.h"
 
 #include <stdio.h>
 #include <stdlib.h>
